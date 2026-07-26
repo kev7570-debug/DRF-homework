@@ -4,16 +4,16 @@ from .models import Course, Lesson
 class LessonSerializer(serializers.ModelSerializer):
     class Meta:
         model = Lesson
-        fields = ['id', 'name', 'description', 'preview', 'video_url', 'course']
+        fields = ['id', 'name', 'description', 'preview', 'video_url', 'course', 'owner']
 
 
 class CourseSerializer(serializers.ModelSerializer):
     lessons_count = serializers.SerializerMethodField()
-    lessons = LessonSerializer(many=True, read_only=True)  # Убрали source
+    lessons = LessonSerializer(many=True, read_only=True)
 
     class Meta:
         model = Course
-        fields = ['id', 'name', 'preview', 'description', 'lessons_count', 'lessons']
+        fields = ['id', 'name', 'preview', 'description', 'lessons_count', 'lessons', 'owner']
 
     def get_lessons_count(self, obj):
         return obj.lessons.count()
