@@ -1,9 +1,11 @@
-from rest_framework import generics, permissions
+from rest_framework import generics, permissions, viewsets
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import OrderingFilter
-from .models import Payment
+from .models import Payment, User
 from .serializers import PaymentSerializer, UserRegistrationSerializer, UserSerializer
 from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
+from .serializers import UserSerializer
 
 
 class PaymentListView(generics.ListAPIView):
@@ -26,4 +28,12 @@ class UserRegistrationView(generics.CreateAPIView):
             'user': UserSerializer(user).data,
             'message': 'Пользователь успешно создан'
         })
-    
+
+class UserViewSet(viewsets.ModelViewSet):
+    """
+    ViewSet для CRUD пользователей.
+    Доступен только авторизованным пользователям.
+    """
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = [IsAuthenticated]
