@@ -2,7 +2,7 @@ from rest_framework import viewsets, generics
 from rest_framework.permissions import IsAuthenticated
 from .models import Course, Lesson
 from .serializers import CourseSerializer, LessonSerializer
-from users.permissions import IsModerator, IsOwner, IsNotModerator
+from users.permissions import IsModerator, IsOwner, IsNotModerator, IsModeratorOrOwner
 from .paginators import CoursePaginator, LessonPaginator
 
 
@@ -20,7 +20,7 @@ class CourseViewSet(viewsets.ModelViewSet):
         elif self.action in ['list', 'retrieve']:
             self.permission_classes = [IsAuthenticated]
         elif self.action in ['update', 'partial_update']:
-            self.permission_classes = [IsAuthenticated, IsModerator | IsOwner]
+            self.permission_classes = [IsAuthenticated, IsModeratorOrOwner]
         return super().get_permissions()
 
 
@@ -42,9 +42,10 @@ class LessonRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Lesson.objects.all()
     serializer_class = LessonSerializer
 
+
     def get_permissions(self):
         if self.request.method == 'DELETE':
             return [IsAuthenticated(), IsNotModerator()]
         elif self.request.method in ['PUT', 'PATCH']:
-            return [IsAuthenticated(), IsModerator() | IsOwner()]
+            return [IsAuthenticated(), IsModeratorOrOwner()]
         return [IsAuthenticated()]
