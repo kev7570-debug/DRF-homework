@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import User, Payment
+from .models import User, Payment, Subscription
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -28,3 +28,8 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
             last_name=validated_data.get('last_name', ''),
         )
         return user
+
+class SubscriptionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Subscription
+        fields = ['id', 'user', 'course', 'created_at']
