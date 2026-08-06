@@ -55,6 +55,7 @@ class Payment(models.Model):
         CASH = 'cash', 'Наличные'
         TRANSFER = 'transfer', 'Перевод на счет'
 
+
     user = models.ForeignKey(
         'users.User',
         on_delete=models.CASCADE,
@@ -88,6 +89,18 @@ class Payment(models.Model):
         choices=PaymentMethod.choices,
         default=PaymentMethod.CASH,
         verbose_name='Способ оплаты'
+    )
+    stripe_session_id = models.CharField(
+        max_length=255,
+        blank=True,
+        null=True,
+        verbose_name='ID сессии Stripe'
+    )
+    stripe_payment_status = models.CharField(
+        max_length=50,
+        blank=True,
+        null=True,
+        verbose_name='Статус платежа'
     )
 
     class Meta:
