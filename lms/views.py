@@ -4,6 +4,7 @@ from .models import Course, Lesson
 from .serializers import CourseSerializer, LessonSerializer
 from users.permissions import IsModerator, IsOwner, IsNotModerator, IsModeratorOrOwner
 from .paginators import CoursePaginator, LessonPaginator
+from .tasks import send_course_update_email
 
 
 class CourseViewSet(viewsets.ModelViewSet):
@@ -13,6 +14,10 @@ class CourseViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
+
+    def perform_update(self, serializer):
+        course = serializer.save()
+        send_course_update_email.delay(course.id)
 
     def get_permissions(self):
         if self.action in ['create', 'destroy']:
