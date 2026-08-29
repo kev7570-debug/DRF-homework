@@ -25,8 +25,12 @@ class IsNotModerator(permissions.BasePermission):
     """
 
     def has_permission(self, request, view):
-        return request.user and request.user.is_authenticated and not request.user.groups.filter(name='moderators').exists()
-
+        # return request.user and request.user.is_authenticated and not request.user.groups.filter(name='moderators').exists()
+        return (
+                request.user
+                and request.user.is_authenticated
+                and not request.user.groups.filter(name='moderators').exists()
+        )
 
 class IsModeratorOrOwner(permissions.BasePermission):
     """
