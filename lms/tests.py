@@ -104,6 +104,7 @@ class LessonTests(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
         self.assertEqual(Lesson.objects.count(), 0)
 
+
 class SubscriptionTests(APITestCase):
 
     def setUp(self):

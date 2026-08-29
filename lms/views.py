@@ -2,7 +2,7 @@ from rest_framework import viewsets, generics
 from rest_framework.permissions import IsAuthenticated
 from .models import Course, Lesson
 from .serializers import CourseSerializer, LessonSerializer
-from users.permissions import IsModerator, IsOwner, IsNotModerator, IsModeratorOrOwner
+from users.permissions import IsNotModerator, IsModeratorOrOwner
 from .paginators import CoursePaginator, LessonPaginator
 from .tasks import send_course_update_email
 
@@ -46,7 +46,6 @@ class LessonListCreateView(generics.ListCreateAPIView):
 class LessonRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Lesson.objects.all()
     serializer_class = LessonSerializer
-
 
     def get_permissions(self):
         if self.request.method == 'DELETE':
