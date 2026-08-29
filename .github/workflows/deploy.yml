@@ -29,9 +29,13 @@ jobs:
 
       - name: Run migrations
         run: python manage.py migrate
+        env:
+          SECRET_KEY: ${{ secrets.SECRET_KEY }}
 
       - name: Run tests
         run: python manage.py test
+        env:
+          SECRET_KEY: ${{ secrets.SECRET_KEY }}
 
   deploy:
     runs-on: ubuntu-latest
