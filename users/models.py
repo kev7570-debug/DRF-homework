@@ -50,11 +50,11 @@ class User(AbstractBaseUser, PermissionsMixin):
     def __str__(self):
         return self.email
 
+
 class Payment(models.Model):
     class PaymentMethod(models.TextChoices):
         CASH = 'cash', 'Наличные'
         TRANSFER = 'transfer', 'Перевод на счет'
-
 
     user = models.ForeignKey(
         'users.User',
@@ -110,6 +110,7 @@ class Payment(models.Model):
 
     def __str__(self):
         return f'Платеж {self.user.email} - {self.amount}'
+
 
 class Subscription(models.Model):
     user = models.ForeignKey(

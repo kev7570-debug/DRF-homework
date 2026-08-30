@@ -25,6 +25,7 @@ class CustomUserAdmin(UserAdmin):
 
     ordering = ('email',)
 
+
 @admin.register(Payment)
 class PaymentAdmin(admin.ModelAdmin):
     list_display = ('user', 'payment_date', 'course', 'lesson', 'amount', 'payment_method')

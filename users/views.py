@@ -18,6 +18,7 @@ class PaymentListView(generics.ListAPIView):
     ordering_fields = ['payment_date']
     ordering = ['-payment_date']  # По умолчанию сортировка по убыванию
 
+
 class UserRegistrationView(generics.CreateAPIView):
     serializer_class = UserRegistrationSerializer
     permission_classes = [permissions.AllowAny]  # Доступно всем
@@ -31,6 +32,7 @@ class UserRegistrationView(generics.CreateAPIView):
             'message': 'Пользователь успешно создан'
         })
 
+
 class UserViewSet(viewsets.ModelViewSet):
     """
     ViewSet для CRUD пользователей.
@@ -39,6 +41,7 @@ class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     permission_classes = [IsAuthenticated]
+
 
 class SubscriptionView(APIView):
     permission_classes = [IsAuthenticated]
