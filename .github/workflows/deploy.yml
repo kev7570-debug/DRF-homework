@@ -9,7 +9,6 @@ on:
 env:
   SECRET_KEY: ${{ secrets.SECRET_KEY }}
 
-
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -30,6 +29,12 @@ jobs:
 
       - name: Run Flake8
         run: flake8 .
+
+      - name: Create .env file
+        run: echo "SECRET_KEY=${{ secrets.SECRET_KEY }}" > .env
+
+      - name: Use SQLite for CI
+        run: echo "DB_ENGINE=django.db.backends.sqlite3" >> .env
 
       - name: Run migrations
         run: python manage.py migrate
